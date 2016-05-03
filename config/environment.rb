@@ -5,6 +5,7 @@ require 'active_support/all'
 
 # Load Sinatra Framework (with AR)
 require 'sinatra'
+require 'sinatra/json'
 require 'sinatra/activerecord'
 require 'sinatra/contrib/all' # Requires cookies, among other things
 
