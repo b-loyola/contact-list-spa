@@ -3,5 +3,9 @@ get '/' do
 end
 
 get '/contacts' do
-	Contact.all.limit(5).to_json
+	if params[:query]
+		Contact.search(params[:query]).to_json
+	else
+		Contact.all.to_json
+	end
 end

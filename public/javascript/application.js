@@ -1,20 +1,29 @@
 $(function() {
 
-	$('#get-all-contacts').on('click', function(){
-		$.getJSON('/contacts', function(contacts){
-			$.each(contacts, function(){
-				contact = $(this);
-				// debugger;
-				$('<tr>')
-					.append($('<td>').text(contact[0].first_name))
-					.append($('<td>').text(contact[0].last_name))
-					.append($('<td>').text(contact[0].email))
-					.appendTo($('#contact-list'));
+	function clearTable(){
+		$('#contact-list tbody').empty();
+	}
 
-			});
-			// $('#contact-name').text(contact.first_name + " " + contact.last_name);
-			// $('#contact-email').text(contact.email);
+	function addContactsToTable(contacts){
+		var nodes = contacts.map(function(contact){
+			return $('<tr>')
+				.addClass('table-data')
+				.append($('<td>').text(contact.first_name))
+				.append($('<td>').text(contact.last_name))
+				.append($('<td>').text(contact.email));
 		});
+		$('#contact-list tbody').append(nodes);
+	}
+
+	$('#get-all-contacts').on('click', function(){
+		clearTable();
+		$.getJSON('/contacts', addContactsToTable);
+	});
+
+	$('#search-contacts').on('click', function(){
+		clearTable();
+		var query = $('#search-term').val();
+		$.getJSON('/contacts', {query: query}, addContactsToTable);
 	});
 
 });
