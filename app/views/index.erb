@@ -1,26 +1,27 @@
 <h1>Contact List</h1>
-<!-- <p>Contact Name: <span id="contact-name"></span></p> -->
-<!-- <p>Contact Email: <span id="contact-email"></span></p> -->
-<button id="get-all-contacts">Get Contacts</button>
 
-<form>
-	<input id="search-term" type="text" placeholder="Search term...">
-	<button id="search-contacts">Search Contacts</button>
-</form>
+<p>Message: <span id="message"></span></p>
+<button id="get-all-contacts">All Contacts</button>
+<input id="search-term" type="text" placeholder="Search term...">
+<button id="search-contacts">Search</button>
+<button id="show-contact-form">Add</button>
 
-<form>
+<form hidden id="contact-form" data-edit-contact="false">
+	<input id="contact-id" type="hidden">
 	<input id="contact-first-name" type="text" placeholder="First Name">
 	<input id="contact-last-name" type="text" placeholder="Last Name">
 	<input id="contact-email" type="text" placeholder="Email">
-	<button id="add-contact">Add Contact</button>
+	<button id="add-contact">Submit</button>
 </form>
 
-<table id="contact-list">
+<table hidden id="contact-list">
 	<thead>
 		<tr class="table-header">
 			<th>First Name</th>
 			<th>Last Name</th>
 			<th>Email</th>
+			<th>Delete</th>
+			<th>Edit</th>
 		</tr>
 	</thead>
 	<tbody></tbody>
