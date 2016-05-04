@@ -3,7 +3,7 @@ get '/' do
 end
 
 get '/contacts/?' do
-	if params[:query]
+	if params[:query] && params[:query] != ""
 		Contact.search(params[:query]).to_json
 	else
 		Contact.all.to_json

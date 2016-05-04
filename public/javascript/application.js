@@ -1,60 +1,97 @@
 $(function() {
 
-	function clearTable(){
-		$('#contact-list').find('tbody').empty();
-	}
+	var display = {
 
-	function addContactsToTable(contacts){
-		var list = $('#contact-list');
-		var nodes = contacts.map(function(contact){
-			return $('<tr>')
-				// .addClass('table-data')
-				.attr('data-contact-id', contact.id)
-				.append($('<td>').addClass('first-name').text(contact.first_name))
-				.append($('<td>').addClass('last-name').text(contact.last_name))
-				.append($('<td>').addClass('email').text(contact.email))
-				.append($('<td>').append($('<button>').addClass('delete-button').text('Delete')))
-				.append($('<td>').append($('<button>').addClass('edit-button').text('Edit')));
-		});
-		list.find('tbody').append(nodes);
-		list.show();
-	}
+		clear: function(){
+			$('#contact-form').hide();
+			$('#contact-list').find('tbody').empty();
+		},
 
-	$('#get-all-contacts').on('click', function(){
-		$('#contact-form').hide();
-		clearTable();
-		$.getJSON('/contacts', addContactsToTable);
-	});
+		addContactsToTable: function(contacts){
+			var list = $('#contact-list');
+			var nodes = contacts.map(function(contact){
+				return $('<tr>')
+					.attr('data-contact-id', contact.id)
+					.append($('<td>').addClass('first-name').text(contact.first_name))
+					.append($('<td>').addClass('last-name').text(contact.last_name))
+					.append($('<td>').addClass('email').text(contact.email))
+					.append($('<td>').append($('<button>').addClass('delete-button').text('Delete')))
+					.append($('<td>').append($('<button>').addClass('edit-button').text('Edit')));
+			});
+			list.find('tbody').append(nodes);
+			list.show();
+		},
 
-	$('#search-contacts').on('click', function(){
-		$('#contact-form').hide();
-		clearTable();
-		var query = $('#search-term').val();
-		$.getJSON('/contacts', {query: query}, addContactsToTable);
+		message: function(msg){
+			$('#message').text(msg);
+		},
+
+		form: function(addOrEdit){
+			$('#contact-list').hide();
+			$('#contact-id').val('');
+			$('#contact-form').trigger('reset').attr('data-purpose', addOrEdit).show();
+		},
+
+		updateForm: function(msg){
+			$('#contact-form').trigger('reset');
+			display.message('Contact ' + msg + ' successfully');
+		},
+
+		populateForm: function(contact){
+			$("#contact-id").val(contact.id);
+			$("#contact-first-name").val(contact.first_name);
+			$("#contact-last-name").val(contact.last_name);
+			$("#contact-email").val(contact.email);
+		},
+
+		invalidSubmit: function(){
+			display.message("Invalid submission");
+		}
+
+	};
+
+	var get = {
+
+		search: function(){
+			$.getJSON('/contacts', {query: $('#search-term').val()}, display.addContactsToTable);
+		},
+
+		formDetails: function(){
+			return {
+				id: $('#contact-id').val(),
+				first_name: $('#contact-first-name').val(),
+				last_name: $('#contact-last-name').val(),
+				email: $('#contact-email').val()
+			};
+		}
+
+	};
+
+	$('#search-contacts').on('click', function(event){
+		event.preventDefault();
+		display.clear();
+		get.search();
 	});
 
 	$('#show-contact-form').on('click', function(){
-		$('#contact-list').hide();
-		$('#contact-form').trigger('reset').attr('data-edit-contact', 'false').show();
+		display.form("add");
 	});
 
-	$('#add-contact').on('click', function(){
-		var id = $('#contact-id').val();
-		var firstName = $('#contact-first-name').val();
-		var lastName = $('#contact-last-name').val();
-		var email = $('#contact-email').val();
-		if ($('#contact-form').attr('data-edit-contact') === 'true') {
-			$.post('/contacts/' + id, {first_name: firstName, last_name: lastName, email: email}, function(){
-				$('#contact-form').trigger('reset');
-				$('#message').text('Contact updated successfully');
-			});
+	$('#add-contact').on('click', function(event){
+		event.preventDefault();
+		var contact = get.formDetails();
+		var purpose = $('#contact-form').attr('data-purpose');
+		if (purpose === 'edit') {
+			$.post('/contacts/' + contact.id, contact, function(){
+				display.updateForm("updated");
+			}).fail(invalidSubmit);
+		} else if (purpose === 'add') {
+			$.post('/contacts', contact, function(){
+				display.updateForm("added");
+			}).fail(invalidSubmit);
 		} else {
-			$.post('/contacts', {first_name: firstName, last_name: lastName, email: email}, function(){
-				$('#contact-form').trigger('reset');
-				$('#message').text('Contact added successfully');
-			});
+			display.message('Unable to submit request');
 		}
-		return false;
 	});
 
 	$('#contact-list').on('click', '.delete-button', function(){
@@ -62,23 +99,19 @@ $(function() {
 		var id = contactRow.attr('data-contact-id');
 		$.post('/contacts/'+id, {_method:"delete"}, function(){
 			contactRow.remove();
-			$('#message').text('Contact deleted successfully');
+			display.message('Contact deleted successfully');
 		});
 	});
 
 	$('#contact-list').on('click', '.edit-button', function(){
-		$('#contact-list').hide();
-		var contactRow = $(this).closest('tr');
-		var id = contactRow.attr('data-contact-id');
-		var firstName = contactRow.find('.first-name').text();
-		var lastName = contactRow.find('.last-name').text();
-		var email = contactRow.find('.email').text();
-		var form = $('#contact-form');
-		form.find("#contact-id").val(id);
-		form.find("#contact-first-name").val(firstName);
-		form.find("#contact-last-name").val(lastName);
-		form.find("#contact-email").val(email);
-		form.attr('data-edit-contact', 'true').show();
+		display.form('edit');
+		var row = $(this).closest('tr');
+		display.populateForm({
+			id: row.attr('data-contact-id'), 
+			first_name: row.find('.first-name').text(),
+			last_name: row.find('.last-name').text(),
+			email: row.find('.email').text()
+		});
 	});
 
 });

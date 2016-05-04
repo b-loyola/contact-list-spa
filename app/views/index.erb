@@ -1,12 +1,13 @@
 <h1>Contact List</h1>
 
 <p>Message: <span id="message"></span></p>
-<button id="get-all-contacts">All Contacts</button>
-<input id="search-term" type="text" placeholder="Search term...">
-<button id="search-contacts">Search</button>
+<form>
+	<input id="search-term" type="text" placeholder="Search term...">
+	<button id="search-contacts">Search</button>
+</form>
 <button id="show-contact-form">Add</button>
 
-<form hidden id="contact-form" data-edit-contact="false">
+<form hidden id="contact-form" data-purpose="add">
 	<input id="contact-id" type="hidden">
 	<input id="contact-first-name" type="text" placeholder="First Name">
 	<input id="contact-last-name" type="text" placeholder="Last Name">
