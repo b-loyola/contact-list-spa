@@ -63,6 +63,13 @@ $(function() {
 				last_name: $('#contact-last-name').val(),
 				email: $('#contact-email').val()
 			};
+		},
+
+		submit: function(msg){
+			var contact = get.formDetails();
+			$.post('/contacts/' + contact.id, contact, function(){
+				display.updateForm(msg + "ed");
+			}).fail(display.invalidSubmit);
 		}
 
 	};
@@ -79,19 +86,8 @@ $(function() {
 
 	$('#add-contact').on('click', function(event){
 		event.preventDefault();
-		var contact = get.formDetails();
 		var purpose = $('#contact-form').attr('data-purpose');
-		if (purpose === 'edit') {
-			$.post('/contacts/' + contact.id, contact, function(){
-				display.updateForm("updated");
-			}).fail(invalidSubmit);
-		} else if (purpose === 'add') {
-			$.post('/contacts', contact, function(){
-				display.updateForm("added");
-			}).fail(invalidSubmit);
-		} else {
-			display.message('Unable to submit request');
-		}
+		get.submit(purpose);
 	});
 
 	$('#contact-list').on('click', '.delete-button', function(){
