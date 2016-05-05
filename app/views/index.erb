@@ -1,21 +1,28 @@
 <h1>Contact List</h1>
 
-<p>Message: <span id="message"></span></p>
-<form>
-	<input id="search-term" type="text" placeholder="Search term...">
-	<button id="search-contacts">Search</button>
-</form>
-<button id="show-contact-form">Add</button>
+<div id="message-container"><p id="message"></p></div>
+
+<div class="row">
+	<div class="col-xs-12 col-sm-6">
+		<form id="search-contacts">
+			<input id="search-term" class="form-control" type="text" placeholder="Search term...">
+		</form>
+	</div>
+
+	<div class="col-xs-12 col-sm-6">
+		<button id="show-contact-form" class="btn btn-default btn-block">Add</button>
+	</div>
+</div>
 
 <form hidden id="contact-form" data-purpose="add">
 	<input id="contact-id" type="hidden">
-	<input id="contact-first-name" type="text" placeholder="First Name">
-	<input id="contact-last-name" type="text" placeholder="Last Name">
-	<input id="contact-email" type="text" placeholder="Email">
-	<button id="add-contact">Submit</button>
+	<input id="contact-first-name" class="form-control" type="text" placeholder="First Name">
+	<input id="contact-last-name" class="form-control" type="text" placeholder="Last Name">
+	<input id="contact-email" class="form-control" type="text" placeholder="Email">
+	<button id="add-contact" class="btn btn-default btn-block">Submit</button>
 </form>
 
-<table hidden id="contact-list">
+<table hidden id="contact-list" class="table">
 	<thead>
 		<tr class="table-header">
 			<th>First Name</th>

@@ -8,8 +8,7 @@ require 'sinatra'
 require 'sinatra/json'
 require 'sinatra/activerecord'
 require 'sinatra/contrib/all' # Requires cookies, among other things
-
-require 'pry'
+require 'sinatra/cross_origin'
 
 APP_ROOT = Pathname.new(File.expand_path('../../', __FILE__))
 APP_NAME = APP_ROOT.basename.to_s
@@ -19,6 +18,7 @@ configure do
   set :root, APP_ROOT.to_path
   set :server, :puma
 
+  enable :cross_origin
   enable :sessions
   set :session_secret, ENV['SESSION_KEY'] || 'lighthouselabssecret'
 

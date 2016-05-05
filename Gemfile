@@ -11,7 +11,11 @@ gem 'sinatra-activerecord'
 gem 'puma'
 gem 'tux'
 gem 'faker'
-gem 'will_paginate', '~> 3.1.0'
+gem "sinatra-cross_origin", "~> 0.3.1"
+
+group :production do
+  gem 'pg'
+end
 
 group :development, :test do
   gem 'pry'

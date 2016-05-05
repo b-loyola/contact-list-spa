@@ -1,0 +1,18 @@
+table.table {
+	margin-top: 15px;
+}
+
+#contact-form {
+	margin-top: 1em;
+}
+
+#message-container {
+	position: absolute;
+	right: 70px;
+	top: 30px;
+	color: #d9534f;
+}
+
+h1 {
+	padding-bottom: 20px;
+}

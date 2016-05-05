@@ -15,8 +15,8 @@ $(function() {
 					.append($('<td>').addClass('first-name').text(contact.first_name))
 					.append($('<td>').addClass('last-name').text(contact.last_name))
 					.append($('<td>').addClass('email').text(contact.email))
-					.append($('<td>').append($('<button>').addClass('delete-button').text('Delete')))
-					.append($('<td>').append($('<button>').addClass('edit-button').text('Edit')));
+					.append($('<td>').append($('<button>').addClass('delete-button').addClass('btn btn-default').text('Delete')))
+					.append($('<td>').append($('<button>').addClass('edit-button').addClass('btn btn-default').text('Edit')));
 			});
 			list.find('tbody').append(nodes);
 			list.show();
@@ -74,7 +74,7 @@ $(function() {
 
 	};
 
-	$('#search-contacts').on('click', function(event){
+	$('#search-contacts').on('submit', function(event){
 		event.preventDefault();
 		display.clear();
 		get.search();
