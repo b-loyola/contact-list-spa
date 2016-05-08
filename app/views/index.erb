@@ -4,23 +4,47 @@
 
 <div class="row">
 	<div class="col-xs-12 col-sm-6">
-		<form id="search-contacts">
+		<div id="search-contacts" class="form-group">
 			<input id="search-term" class="form-control" type="text" placeholder="Search term...">
-		</form>
+		</div>
 	</div>
 
 	<div class="col-xs-12 col-sm-6">
-		<button id="show-contact-form" class="btn btn-default btn-block">Add</button>
+		<button id="show-contact-form" class="btn btn-default btn-block btn-primary">Add</button>
 	</div>
 </div>
 
 <form hidden id="contact-form" data-purpose="add">
+	<h4 id="form-heading"></h4>
 	<input id="contact-id" type="hidden">
-	<input id="contact-first-name" class="form-control" type="text" placeholder="First Name">
-	<input id="contact-last-name" class="form-control" type="text" placeholder="Last Name">
-	<input id="contact-email" class="form-control" type="text" placeholder="Email">
-	<button id="add-contact" class="btn btn-default btn-block">Submit</button>
+	<div class="user-forms">
+		<input id="contact-first-name" class="first-name form-control" type="text" placeholder="First Name">
+		<div hidden id="first-name-info" class="first-name requirements">
+			<h4>First name requirements:</h4>
+			<ul>
+				<li class="length invalid">At least <strong>two characters long</strong></li>
+				<li class="letters invalid">Must contain <strong>letters only</strong></li>
+			</ul>
+		</div>
+		<input id="contact-last-name" class="last-name form-control" type="text" placeholder="Last Name">
+		<div hidden id="last-name-info" class="last-name requirements">
+			<h4>Last name requirements:</h4>
+			<ul>
+				<li class="length invalid">At least <strong>two characters long</strong></li>
+				<li class="letters invalid">Must contain <strong>letters only</strong></li>
+			</ul>
+		</div>
+		<input id="contact-email" class="email form-control" type="text" placeholder="Email">
+		<div hidden id="email-info" class="email requirements">
+			<h4>Email requirements:</h4>
+			<ul>
+				<li id="email-validation" class="invalid">Must be a <strong>valid email address</strong></li>
+			</ul>
+		</div>
+		<button id="add-contact" class="btn btn-default btn-block btn-success">Submit</button>
+	</div>
 </form>
+
 
 <table hidden id="contact-list" class="table">
 	<thead>
@@ -34,3 +58,7 @@
 	</thead>
 	<tbody></tbody>
 </table>
+
+<div hidden id="loading">
+	<img src="/media/loading.gif">
+</div>
