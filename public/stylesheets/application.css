@@ -1,3 +1,7 @@
+body {
+  transition: all 1s;
+}
+
 table.table {
 	margin-top: 15px;
 }
@@ -10,6 +14,11 @@ table.table {
 
 .red-warning {
   color: #d9534f;
+}
+
+.table td.red-warning {
+  height: 51px;
+  text-align: center;   
 }
 
 h1 {

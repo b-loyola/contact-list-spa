@@ -181,7 +181,7 @@ $(function() {
 		var id = contactRow.attr('data-contact-id');
 		$.post('/contacts/'+id, {_method:"delete"}, function(){
 			contactRow.empty().append($('<td>').attr('colspan', 5).addClass('red-warning').text("Contact deleted successfully"));
-			setTimeout(function(){contactRow.remove();}, 3000);
+			setTimeout(function(){contactRow.fadeOut(500, contactRow.remove);}, 2000);
 			// display.message('Contact deleted successfully');
 		});
 	});
