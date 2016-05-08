@@ -1,6 +1,6 @@
 class Contact < ActiveRecord::Base
-	validates :first_name, presence: true, length: {min: 2}
-	validates :last_name, presence: true, length: {min: 2}
+	validates :first_name, presence: true, length: {minimum: 2}
+	validates :last_name, presence: true, length: {minimum: 2}
 	validates :email, presence: true
 
 	def self.search(term)
